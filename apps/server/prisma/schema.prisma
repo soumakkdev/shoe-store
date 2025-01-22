@@ -1,0 +1,148 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name              String
+  email             String  @unique
+  passwordHash      String
+  role              Role
+  isVerified        Boolean @default(false)
+  verificationToken String?
+  tokenExpiry       BigInt?
+
+  addresses Address[]
+  Order     Order[]
+}
+
+model Address {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  address  String
+  locality String?
+  city     String
+  state    String
+  zipcode  String
+  country  String
+  phoneNo  String
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  orders Order[]
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+
+  products Product[]
+}
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String
+  description String?
+  price       Float
+  stock       Int
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  orderItems OrderItem[]
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  totalAmount Float
+  status      OrderStatus
+
+  billingAddress Address @relation(fields: [addressId], references: [id])
+  addressId      Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  orderItems OrderItem[]
+  payments   Payment[]
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  quantity Int
+  price    Float
+
+  order   Order @relation(fields: [orderId], references: [id])
+  orderId Int
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  paymentMethod PaymentMethod
+  paymentStatus PaymentStatus
+  transactionId String        @unique
+
+  order   Order @relation(fields: [orderId], references: [id])
+  orderId Int
+}
+
+// enums 
+
+enum Role {
+  Admin
+  Customer
+}
+
+enum OrderStatus {
+  Pending
+  Paid
+  Shiped
+  Completed
+  Cancelled
+}
+
+enum PaymentMethod {
+  CreditCard
+  UPI
+  COD
+}
+
+enum PaymentStatus {
+  Pending
+  Completed
+  Failed
+}
