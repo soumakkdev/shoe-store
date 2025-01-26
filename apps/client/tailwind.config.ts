@@ -7,6 +7,13 @@ export default {
 			fontFamily: {
 				sans: ['Poppins'],
 			},
+			colors: {
+				primary: '#EFB036',
+				ring: '#4C7B8B',
+				background: '#ffffff',
+				foreground: '#16404D',
+				card: '#F8F9FA',
+			},
 		},
 	},
 	plugins: [],

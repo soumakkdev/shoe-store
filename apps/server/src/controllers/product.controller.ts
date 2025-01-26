@@ -1,10 +1,43 @@
 import prisma from '@/lib/prisma.ts'
 import type { Context } from 'hono'
 import { HTTPException } from 'hono/http-exception'
+import { toInt } from 'radash'
 
 export async function getProducts(c: Context) {
 	try {
-		const data = await prisma.product.findMany({})
+		const queries = await c.req.query()
+
+		const whereQuery = {} as {
+			categoryId?: number
+		}
+
+		if (queries?.categoryId) {
+			whereQuery.categoryId = toInt(queries.categoryId)
+		}
+
+		const data = await prisma.product.findMany({
+			include: {
+				images: true,
+			},
+			where: whereQuery,
+		})
+		return c.json(data)
+	} catch (error) {
+		console.log(error)
+		throw new HTTPException(400, {
+			message: 'Internal server error. Please try again',
+		})
+	}
+}
+
+export async function getProduct(c: Context) {
+	try {
+		const params = await c.req.param()
+		const data = await prisma.product.findFirst({
+			where: {
+				id: toInt(params.productId),
+			},
+		})
 		return c.json(data)
 	} catch (error) {
 		throw new HTTPException(400, {
@@ -22,11 +55,18 @@ export async function createProduct(c: Context) {
 				price: body.price,
 				stock: body.stock,
 				description: body.description,
-				categoryId: 1,
+				categoryId: toInt(body.categoryId),
+				sku: body.sku,
+				images: {
+					createMany: {
+						data: body.images,
+					},
+				},
 			},
 		})
 		return c.json(data)
 	} catch (error) {
+		console.log(error)
 		throw new HTTPException(400, {
 			message: 'Internal server error. Please try again',
 		})

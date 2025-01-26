@@ -1,0 +1,115 @@
+import InputField from '@/components/fields/InputField'
+import PasswordField from '@/components/fields/PasswordField'
+import { Button } from '@/components/ui/Button'
+import { Label } from '@/components/ui/Label'
+import { Link } from '@remix-run/react'
+import { useForm } from '@tanstack/react-form'
+import { FormEvent, useState } from 'react'
+
+export default function LoginPage() {
+	const [isLoading, setIsLoading] = useState(false)
+	const [error, setError] = useState('')
+
+	const form = useForm({
+		defaultValues: {
+			email: 'soumakkdutta@gmail.com',
+			password: 'Password@123',
+		},
+		onSubmit: async ({ value }) => {
+			setIsLoading(true)
+			setError('')
+			try {
+				// const res = await login(value.email, value.password)
+				// nookies.set(null, 'access_token', res.token)
+				// router.push('/')
+			} catch (error: any) {
+				setError(error?.message)
+			} finally {
+				setIsLoading(false)
+			}
+		},
+	})
+
+	function handleSubmit(e: FormEvent) {
+		e.preventDefault()
+		e.stopPropagation()
+		form.handleSubmit()
+	}
+
+	return (
+		<div className="h-screen flex items-center justify-center bg-background">
+			<div>
+				<div className="mb-12">
+					<h1 className="text-4xl font-semibold text-center">Welcome back</h1>
+					<p className="text-sm text-muted-foreground mt-4 text-center">Log in to access your account and stay connected</p>
+				</div>
+
+				<form className="space-y-6 min-w-[440px] mx-auto" onSubmit={handleSubmit}>
+					{/* {error ? (
+					<Alert variant="error">
+						<AlertCircle className="h-4 w-4" />
+						<AlertTitle>{error}</AlertTitle>
+					</Alert>
+				) : null} */}
+
+					<form.Field name="email">
+						{(field) => (
+							<InputField
+								id={field.name}
+								value={field.state.value}
+								onBlur={field.handleBlur}
+								onChange={(e) => field.handleChange(e.target.value)}
+								label="Email address"
+								placeholder="Enter your email address"
+								// startIcon={<Mail size={16} />}
+							/>
+						)}
+					</form.Field>
+
+					<div className="space-y-3">
+						<div className="flex justify-between items-center">
+							<Label htmlFor="password">Password</Label>
+							<a href="#" className="text-xs underline text-primary">
+								Forgot password?
+							</a>
+						</div>
+						<form.Field name="password">
+							{(field) => (
+								<PasswordField
+									placeholder="Enter the password"
+									id={field.name}
+									value={field.state.value}
+									onBlur={field.handleBlur}
+									onChange={(e) => field.handleChange(e.target.value)}
+								/>
+							)}
+						</form.Field>
+					</div>
+
+					<Button size="lg" className="w-full" loading={isLoading}>
+						Sign in
+					</Button>
+
+					{/* <div className="space-y-4">
+					<Button className="w-full" size="lg" variant="outline">
+						<GoogleIcon />
+						<span>Sign in with Google</span>
+					</Button>
+
+					<Button className="w-full" size="lg" variant="outline">
+						<GithubIcon />
+						<span>Sign in with GitHub</span>
+					</Button>
+				</div> */}
+				</form>
+
+				<p className="text-sm text-center mt-8">
+					Don&apos;t have an account?{' '}
+					<Link to="/signup" className="text-primary underline">
+						Sign up
+					</Link>
+				</p>
+			</div>
+		</div>
+	)
+}

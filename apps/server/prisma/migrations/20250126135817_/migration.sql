@@ -1,13 +1,6 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('Admin', 'Customer');
 
-  - You are about to drop the column `created_at` on the `User` table. All the data in the column will be lost.
-  - You are about to drop the column `password_hash` on the `User` table. All the data in the column will be lost.
-  - You are about to drop the column `updated_at` on the `User` table. All the data in the column will be lost.
-  - Added the required column `passwordHash` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `updatedAt` to the `User` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- CreateEnum
 CREATE TYPE "OrderStatus" AS ENUM ('Pending', 'Paid', 'Shiped', 'Completed', 'Cancelled');
 
@@ -17,16 +10,22 @@ CREATE TYPE "PaymentMethod" AS ENUM ('CreditCard', 'UPI', 'COD');
 -- CreateEnum
 CREATE TYPE "PaymentStatus" AS ENUM ('Pending', 'Completed', 'Failed');
 
--- AlterTable
-ALTER TABLE "User" DROP COLUMN "created_at",
-DROP COLUMN "password_hash",
-DROP COLUMN "updated_at",
-ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-ADD COLUMN     "isVerified" BOOLEAN NOT NULL DEFAULT false,
-ADD COLUMN     "passwordHash" TEXT NOT NULL,
-ADD COLUMN     "tokenExpiry" INTEGER,
-ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL,
-ADD COLUMN     "verificationToken" TEXT;
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "passwordHash" TEXT NOT NULL,
+    "role" "Role" NOT NULL,
+    "avatar" TEXT,
+    "isVerified" BOOLEAN NOT NULL DEFAULT false,
+    "verificationToken" TEXT,
+    "tokenExpiry" BIGINT,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Address" (
@@ -64,6 +63,8 @@ CREATE TABLE "Product" (
     "description" TEXT,
     "price" DOUBLE PRECISION NOT NULL,
     "stock" INTEGER NOT NULL,
+    "images" JSONB[],
+    "sku" TEXT NOT NULL,
     "categoryId" INTEGER NOT NULL,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
@@ -107,6 +108,9 @@ CREATE TABLE "Payment" (
 
     CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Payment_transactionId_key" ON "Payment"("transactionId");

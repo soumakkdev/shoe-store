@@ -1010,6 +1010,13 @@
   resolved "https://registry.yarnpkg.com/@radix-ui/react-context/-/react-context-1.1.1.tgz#82074aa83a472353bb22e86f11bcbd1c61c4c71a"
   integrity sha512-UASk9zi+crv9WteK/NU4PLvOoL3OuE6BWVKNF6hPRBtYBDXQ2u5iu3O59zUlJiTVvkyuycnqrztsHVJwcK9K+Q==
 
+"@radix-ui/react-label@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-label/-/react-label-2.1.1.tgz#f30bd577b26873c638006e4f65761d4c6b80566d"
+  integrity sha512-UUw5E4e/2+4kFMH7+YxORXGWggtY6sM8WIwh5RZchhLuUg2H1hc98Py+pr8HMz6rdaYrK2t296ZEjYLOCO5uUw==
+  dependencies:
+    "@radix-ui/react-primitive" "2.0.1"
+
 "@radix-ui/react-primitive@2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-primitive/-/react-primitive-2.0.1.tgz#6d9efc550f7520135366f333d1e820cf225fad9e"
@@ -1102,7 +1109,7 @@
   dependencies:
     "@remix-run/node" "2.15.2"
 
-"@remix-run/node@2.15.2", "@remix-run/node@^2.15.2":
+"@remix-run/node@2.15.2", "@remix-run/node@^2.15.0", "@remix-run/node@^2.15.2":
   version "2.15.2"
   resolved "https://registry.yarnpkg.com/@remix-run/node/-/node-2.15.2.tgz#7ea460335b66a06d22e554a84edf09e2b8879a8a"
   integrity sha512-NS/h5uxje7DYCNgcKqKAiUhf0r2HVnoYUBWLyIIMmCUP1ddWurBP6xTPcWzGhEvV/EvguniYi1wJZ5+X8sonWw==
@@ -1323,6 +1330,36 @@
   dependencies:
     "@sendgrid/client" "^8.1.4"
     "@sendgrid/helpers" "^8.0.0"
+
+"@tanstack/form-core@0.41.3":
+  version "0.41.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/form-core/-/form-core-0.41.3.tgz#4e51ec1199deadc5582a2ec8a6a027be5d5473c0"
+  integrity sha512-ifGRimfnYgc+SQikx8ngWGhIxs5UHutSwUQ1IPFHZ6PRAfCTEEqDtXqaWZGkuzvf8itoxXdwsR+chEdwiPtsPA==
+  dependencies:
+    "@tanstack/store" "^0.7.0"
+
+"@tanstack/react-form@^0.41.3":
+  version "0.41.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-form/-/react-form-0.41.3.tgz#2bff2c684d5a163727919ffc1602349c7b6abe16"
+  integrity sha512-GZUiapJnQoWRvIFjXwC7IrTileAgLKG9AwQTk+EhZsJi5vXJcaiy9xQy2c6l9SQOv4ue+MNUIrIGNEhgukTBHA==
+  dependencies:
+    "@remix-run/node" "^2.15.0"
+    "@tanstack/form-core" "0.41.3"
+    "@tanstack/react-store" "^0.7.0"
+    decode-formdata "^0.8.0"
+
+"@tanstack/react-store@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-store/-/react-store-0.7.0.tgz#62d5d1c9b1c66ee04b06b88bc96cfbc4ee53002a"
+  integrity sha512-S/Rq17HaGOk+tQHV/yrePMnG1xbsKZIl/VsNWnNXt4XW+tTY8dTlvpJH2ZQ3GRALsusG5K6Q3unAGJ2pd9W/Ng==
+  dependencies:
+    "@tanstack/store" "0.7.0"
+    use-sync-external-store "^1.4.0"
+
+"@tanstack/store@0.7.0", "@tanstack/store@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/store/-/store-0.7.0.tgz#afef29b06c6b592e93181cee9baa62fe77454459"
+  integrity sha512-CNIhdoUsmD2NolYuaIs8VfWM467RK6oIBAW4nPEKZhg1smZ+/CwtCdpURgp7nxSqOaV9oKkzdWD80+bC66F/Jg==
 
 "@types/acorn@^4.0.0":
   version "4.0.6"
@@ -2179,6 +2216,13 @@ chownr@^2.0.0:
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-2.0.0.tgz#15bfbe53d2eab4cf70f18a8cd68ebe5b3cb1dece"
   integrity sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==
 
+class-variance-authority@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/class-variance-authority/-/class-variance-authority-0.7.1.tgz#4008a798a0e4553a781a57ac5177c9fb5d043787"
+  integrity sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==
+  dependencies:
+    clsx "^2.1.1"
+
 clean-stack@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/clean-stack/-/clean-stack-2.2.0.tgz#ee8472dbb129e727b31e8a10a427dee9dfe4008b"
@@ -2398,6 +2442,11 @@ debug@^3.2.7:
   integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
   dependencies:
     ms "^2.1.1"
+
+decode-formdata@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/decode-formdata/-/decode-formdata-0.8.0.tgz#1631d0252ee73de07cdd6ce04e22e6e8acadc987"
+  integrity sha512-iUzDgnWsw5ToSkFY7VPFA5Gfph6ROoOxOB7Ybna4miUSzLZ4KaSJk6IAB2AdW6+C9vCVWhjjNA4gjT6wF3eZHQ==
 
 decode-named-character-reference@^1.0.0:
   version "1.0.2"
@@ -4279,6 +4328,11 @@ lru-cache@^7.4.4, lru-cache@^7.5.1, lru-cache@^7.7.1:
   version "7.18.3"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.18.3.tgz#f793896e0fd0e954a59dfdd82f0773808df6aa89"
   integrity sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==
+
+lucide-react@^0.473.0:
+  version "0.473.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.473.0.tgz#f01dcde458e55bce766a282f4f5894970a9f24ac"
+  integrity sha512-KW6u5AKeIjkvrxXZ6WuCu9zHE/gEYSXCay+Gre2ZoInD0Je/e3RBtP4OHpJVJ40nDklSvjVKjgH7VU8/e2dzRw==
 
 make-dir@^3.1.0:
   version "3.1.0"
@@ -6770,6 +6824,11 @@ uri-js@^4.2.2:
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
+
+use-sync-external-store@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.4.0.tgz#adbc795d8eeb47029963016cefdf89dc799fcebc"
+  integrity sha512-9WXSPC5fMv61vaupRkCKCxsPxBocVnwakBEkMIHHpkTTg6icbJtg6jzgtLDm4bl3cSHAca52rYWih0k4K3PfHw==
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"

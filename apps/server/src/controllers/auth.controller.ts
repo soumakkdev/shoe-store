@@ -64,7 +64,7 @@ export async function loginController(c: Context) {
 		})
 	} catch (error) {
 		throw new HTTPException(400, {
-			message: 'Login failed. Please try again',
+			message: error?.message ?? 'Login failed. Please try again',
 		})
 	}
 }

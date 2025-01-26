@@ -2,6 +2,7 @@ import BagIcon from '@/icons/BagIcon'
 import LoveIcon from '@/icons/LoveIcon'
 import { Avatar } from './ui/Avatar'
 import { AvatarImage } from '@radix-ui/react-avatar'
+import { Link } from '@remix-run/react'
 
 export default function Header() {
 	return (
@@ -23,9 +24,11 @@ export default function Header() {
 
 					<LoveIcon />
 
-					<Avatar>
-						<AvatarImage src="https://github.com/shadcn.png" />
-					</Avatar>
+					<Link to="/login">
+						<Avatar>
+							<AvatarImage src="https://github.com/shadcn.png" />
+						</Avatar>
+					</Link>
 				</div>
 			</div>
 		</header>
