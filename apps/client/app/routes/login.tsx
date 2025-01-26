@@ -41,7 +41,9 @@ export default function LoginPage() {
 			<div>
 				<div className="mb-12">
 					<h1 className="text-4xl font-semibold text-center">Welcome back</h1>
-					<p className="text-sm text-muted-foreground mt-4 text-center">Log in to access your account and stay connected</p>
+					<p className="max-w-md mx-auto text-sm text-muted-foreground mt-4 text-center">
+						Log in to access your account and stay connected
+					</p>
 				</div>
 
 				<form className="space-y-6 min-w-[440px] mx-auto" onSubmit={handleSubmit}>

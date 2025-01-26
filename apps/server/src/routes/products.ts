@@ -4,7 +4,7 @@ import { Hono } from 'hono'
 
 const app = new Hono()
 
-app.get('/', getProducts)
+app.post('/', getProducts)
 app.get('/:productId', getProduct)
 app.post('/', authorize, createProduct)
 

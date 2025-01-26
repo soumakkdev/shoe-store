@@ -1,5 +1,4 @@
 import Header from '@/components/Header'
-import TrendingSection from '@/components/home/TrendingSection'
 import type { MetaFunction } from '@remix-run/node'
 
 export const meta: MetaFunction = () => {
@@ -16,7 +15,7 @@ export default function Index() {
 				alt="banner"
 			/>
 
-			<TrendingSection />
+			{/* <TrendingSection /> */}
 		</div>
 	)
 }

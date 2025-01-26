@@ -5,19 +5,21 @@ import { toInt } from 'radash'
 
 export async function getProducts(c: Context) {
 	try {
-		const queries = await c.req.query()
+		// const queries = await c.req.query()
+		const body = await c.req.json()
 
 		const whereQuery = {} as {
 			categoryId?: number
 		}
 
-		if (queries?.categoryId) {
-			whereQuery.categoryId = toInt(queries.categoryId)
+		if (body?.categoryId) {
+			whereQuery.categoryId = toInt(body.categoryId)
 		}
 
 		const data = await prisma.product.findMany({
 			include: {
 				images: true,
+				category: true,
 			},
 			where: whereQuery,
 		})
@@ -34,6 +36,10 @@ export async function getProduct(c: Context) {
 	try {
 		const params = await c.req.param()
 		const data = await prisma.product.findFirst({
+			include: {
+				images: true,
+				category: true,
+			},
 			where: {
 				id: toInt(params.productId),
 			},

@@ -1,22 +1,28 @@
 import BagIcon from '@/icons/BagIcon'
 import LoveIcon from '@/icons/LoveIcon'
-import { Avatar } from './ui/Avatar'
+import { useCategories } from '@/lib/hooks/queries'
 import { AvatarImage } from '@radix-ui/react-avatar'
 import { Link } from '@remix-run/react'
+import { Avatar } from './ui/Avatar'
 
 export default function Header() {
+	const { data: categories } = useCategories()
+
 	return (
 		<header className="max-w-5xl mx-auto px-4">
 			<div className="flex items-center justify-between h-20">
-				<h2 className="text-xl font-semibold">
-					Swift <span className="text-gray-400">Shop</span>
-				</h2>
+				<Link to="/">
+					<h2 className="text-xl font-semibold">
+						Swift <span className="text-gray-400">Shop</span>
+					</h2>
+				</Link>
 
 				<ul className="flex items-center gap-6 text-sm font-medium">
-					<li>Electronics</li>
-					<li>Clothing</li>
-					<li>Shoes</li>
-					<li>Accessories</li>
+					{categories?.map((category) => (
+						<li key={category.id}>
+							<Link to={`/products?categoryId=${category.id}`}>{category.name}</Link>
+						</li>
+					))}
 				</ul>
 
 				<div className="flex items-center gap-5">

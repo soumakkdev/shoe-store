@@ -4,7 +4,7 @@ import { Hono } from 'hono'
 
 const app = new Hono()
 
-app.get('/', authorize, getCategories)
+app.get('/', getCategories)
 app.post('/', authorize, createCategory)
 app.delete('/:id', authorize, deleteCategory)
 
