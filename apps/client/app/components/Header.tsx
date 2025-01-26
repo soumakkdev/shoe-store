@@ -4,9 +4,16 @@ import { useCategories } from '@/lib/hooks/queries'
 import { AvatarImage } from '@radix-ui/react-avatar'
 import { Link } from '@remix-run/react'
 import { Avatar } from './ui/Avatar'
+import FloatingCounter from './ui/FloatingCounter'
+import { useCart } from '@/lib/context/cart'
+import CartDrawer from './home/CartDrawer'
+import { useState } from 'react'
+import { IconButton } from './ui/IconButton'
 
-export default function Header() {
+export default function Header({ minimal }: { minimal?: boolean }) {
 	const { data: categories } = useCategories()
+	const { cartCount } = useCart()
+	const [isCartOpen, setIsCartOpen] = useState(false)
 
 	return (
 		<header className="max-w-5xl mx-auto px-4">
@@ -17,18 +24,26 @@ export default function Header() {
 					</h2>
 				</Link>
 
-				<ul className="flex items-center gap-6 text-sm font-medium">
-					{categories?.map((category) => (
-						<li key={category.id}>
-							<Link to={`/products?categoryId=${category.id}`}>{category.name}</Link>
-						</li>
-					))}
-				</ul>
+				{!minimal && (
+					<ul className="flex items-center gap-6 text-sm font-medium">
+						{categories?.map((category) => (
+							<li key={category.id}>
+								<Link to={`/products?categoryId=${category.id}`}>{category.name}</Link>
+							</li>
+						))}
+					</ul>
+				)}
 
-				<div className="flex items-center gap-5">
-					<BagIcon />
+				<div className="flex items-center gap-3">
+					<FloatingCounter count={cartCount}>
+						<IconButton onClick={() => setIsCartOpen(true)}>
+							<BagIcon size={24} className="mb-0.5" />
+						</IconButton>
+					</FloatingCounter>
 
-					<LoveIcon />
+					<IconButton>
+						<LoveIcon size={24} />
+					</IconButton>
 
 					<Link to="/login">
 						<Avatar>
@@ -37,6 +52,8 @@ export default function Header() {
 					</Link>
 				</div>
 			</div>
+
+			<CartDrawer open={isCartOpen} onClose={() => setIsCartOpen(false)} />
 		</header>
 	)
 }

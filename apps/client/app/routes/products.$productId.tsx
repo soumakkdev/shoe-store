@@ -2,6 +2,7 @@ import Header from '@/components/Header'
 import { Button } from '@/components/ui/Button'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import LoveIcon from '@/icons/LoveIcon'
+import { useCart } from '@/lib/context/cart'
 import { useProduct } from '@/lib/hooks/queries'
 import { formatCurrency } from '@/lib/utils'
 import { useParams } from '@remix-run/react'
@@ -11,12 +12,13 @@ export default function ProductPage() {
 	const productId = params?.productId
 
 	const { data: product, isLoading: isProductLoading } = useProduct(productId)
+	const { addItemToCart } = useCart()
 
 	return (
 		<div>
 			<Header />
 
-			{isProductLoading ? (
+			{isProductLoading || !product ? (
 				<p>Loading...</p>
 			) : (
 				<div className="max-w-5xl mx-auto px-4">
@@ -42,7 +44,7 @@ export default function ProductPage() {
 							<p>{product?.description}</p>
 
 							<div className="flex gap-2 mt-8">
-								<Button className="w-full" size="lg">
+								<Button className="w-full" size="lg" onClick={() => addItemToCart(product)}>
 									Add to cart
 								</Button>
 

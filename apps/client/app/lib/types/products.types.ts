@@ -26,3 +26,5 @@ export interface IProductImage {
 	url: string
 	productId: number
 }
+
+export interface ICartItem {}

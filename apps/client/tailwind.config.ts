@@ -8,11 +8,12 @@ export default {
 				sans: ['Poppins'],
 			},
 			colors: {
-				primary: '#EFB036',
+				primary: '#151515',
 				ring: '#4C7B8B',
 				background: '#ffffff',
 				foreground: '#16404D',
 				card: '#F8F9FA',
+				accent: '#DDE2E5',
 			},
 		},
 	},

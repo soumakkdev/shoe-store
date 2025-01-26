@@ -23,10 +23,12 @@
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.5.2",
     "isbot": "^4.1.0",
+    "jotai": "^2.11.1",
     "lucide-react": "^0.473.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.6.0"
+    "tailwind-merge": "^2.6.0",
+    "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.15.2",
