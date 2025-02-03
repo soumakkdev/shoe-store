@@ -3,6 +3,7 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '
 
 import QueryProvider from './lib/context/QueryProvider'
 import './tailwind.css'
+import { Toaster } from './components/ui/Toaster'
 
 export const links: LinksFunction = () => [
 	{ rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -44,6 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 						__html: `window.ENV = ${JSON.stringify(data.env)}`,
 					}}
 				/> */}
+				<Toaster />
 				<Scripts />
 			</body>
 		</html>

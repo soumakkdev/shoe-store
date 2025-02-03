@@ -2,28 +2,30 @@ import InputField from '@/components/fields/InputField'
 import PasswordField from '@/components/fields/PasswordField'
 import { Button } from '@/components/ui/Button'
 import { Label } from '@/components/ui/Label'
-import { Link } from '@remix-run/react'
+import { login } from '@/lib/api/auth'
+import { Link, useNavigate } from '@remix-run/react'
 import { useForm } from '@tanstack/react-form'
 import { FormEvent, useState } from 'react'
+import { toast } from 'sonner'
 
 export default function LoginPage() {
 	const [isLoading, setIsLoading] = useState(false)
-	const [error, setError] = useState('')
+	const navigate = useNavigate()
 
 	const form = useForm({
 		defaultValues: {
-			email: 'soumakkdutta@gmail.com',
+			email: 'soumak@yopmail.com',
 			password: 'Password@123',
 		},
 		onSubmit: async ({ value }) => {
 			setIsLoading(true)
-			setError('')
 			try {
-				// const res = await login(value.email, value.password)
+				const res = await login(value.email, value.password)
+				console.log(res)
 				// nookies.set(null, 'access_token', res.token)
-				// router.push('/')
-			} catch (error: any) {
-				setError(error?.message)
+				navigate('/')
+			} catch (error) {
+				toast.error(error?.message)
 			} finally {
 				setIsLoading(false)
 			}
@@ -47,13 +49,6 @@ export default function LoginPage() {
 				</div>
 
 				<form className="space-y-6 min-w-[440px] mx-auto" onSubmit={handleSubmit}>
-					{/* {error ? (
-					<Alert variant="error">
-						<AlertCircle className="h-4 w-4" />
-						<AlertTitle>{error}</AlertTitle>
-					</Alert>
-				) : null} */}
-
 					<form.Field name="email">
 						{(field) => (
 							<InputField

@@ -1,8 +1,20 @@
 import Header from '@/components/Header'
-import type { MetaFunction } from '@remix-run/node'
+import { getUser } from '@/lib/api/auth'
+import { redirect, type MetaFunction } from '@remix-run/node'
 
 export const meta: MetaFunction = () => {
 	return [{ title: 'New Remix App' }, { name: 'description', content: 'Welcome to Remix!' }]
+}
+
+export async function loader() {
+	// try {
+	// 	const user = await getUser()
+	// 	console.log(user)
+	// } catch (error) {
+	// 	console.log(error)
+	// 	// return redirect('/login')
+	// }
+	return null
 }
 
 export default function Index() {

@@ -8,7 +8,7 @@ export default {
 				sans: ['Poppins'],
 			},
 			colors: {
-				primary: '#151515',
+				primary: '#272724',
 				ring: '#4C7B8B',
 				background: '#ffffff',
 				foreground: '#16404D',

@@ -46,11 +46,11 @@ export async function loginController(c: Context) {
 			userId: user.id,
 		}
 		const accessToken = await generateToken(payload, 30) // expired in 30 min
-		const refreshToken = await generateToken(payload, 60 * 24) // expired in 1 day
+		// const refreshToken = await generateToken(payload, 60 * 24) // expired in 1 day
 
 		// set refresh token in cookie
 		// const signature = process.env.COOKIE_SIGNATURE as string
-		await setCookie(c, 'refresh_token', refreshToken, {
+		await setCookie(c, 'access_token', accessToken, {
 			path: '/',
 			secure: true,
 			httpOnly: true,
@@ -60,7 +60,7 @@ export async function loginController(c: Context) {
 
 		return c.json({
 			success: true,
-			token: accessToken,
+			// token: accessToken,
 		})
 	} catch (error) {
 		throw new HTTPException(400, {

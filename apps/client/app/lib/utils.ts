@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getUrl(url: string) {
-	return `${import.meta.env.VITE_SERVER_URL}${url}`
+	return `${import.meta.env.VITE_SERVER_URL}/api${url}`
 }
 
 export async function fetchFn(url: string, method: 'POST' | 'GET' | 'PUT' | 'DELETE', body?: object) {
