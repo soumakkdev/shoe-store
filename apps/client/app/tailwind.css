@@ -4,9 +4,9 @@
 
 html,
 body {
-	@apply bg-background dark:bg-gray-950 text-foreground;
+	/* @apply bg-background dark:bg-gray-950 text-foreground;
 
 	@media (prefers-color-scheme: dark) {
 		color-scheme: dark;
-	}
+	} */
 }

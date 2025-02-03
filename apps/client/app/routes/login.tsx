@@ -2,9 +2,11 @@ import InputField from '@/components/fields/InputField'
 import PasswordField from '@/components/fields/PasswordField'
 import { Button } from '@/components/ui/Button'
 import { Label } from '@/components/ui/Label'
-import { login } from '@/lib/api/auth'
+import { auth } from '@/lib/firebase'
+import { getUrl } from '@/lib/utils'
 import { Link, useNavigate } from '@remix-run/react'
 import { useForm } from '@tanstack/react-form'
+import { getIdToken, signInWithEmailAndPassword } from 'firebase/auth'
 import { FormEvent, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -20,10 +22,17 @@ export default function LoginPage() {
 		onSubmit: async ({ value }) => {
 			setIsLoading(true)
 			try {
-				const res = await login(value.email, value.password)
-				console.log(res)
-				// nookies.set(null, 'access_token', res.token)
-				navigate('/')
+				const userCredential = await signInWithEmailAndPassword(auth, value.email, value.password)
+				const token = await getIdToken(userCredential?.user)
+				await fetch(getUrl('/session-login'), {
+					method: 'POST',
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ token }),
+				})
+				// navigate('/')
 			} catch (error) {
 				toast.error(error?.message)
 			} finally {
