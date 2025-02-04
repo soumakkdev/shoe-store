@@ -18,14 +18,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name              String
-  email             String  @unique
-  passwordHash      String
-  role              Role
-  avatar            String?
-  isVerified        Boolean @default(false)
-  verificationToken String?
-  tokenExpiry       BigInt?
+  name   String
+  email  String  @unique
+  role   Role
+  avatar String?
 
   addresses Address[]
   Order     Order[]
@@ -51,10 +47,15 @@ model Address {
 }
 
 model Category {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
+  id   Int    @id @default(autoincrement())
+  name String
+
+  products Product[]
+}
+
+model Brand {
+  id   Int    @id @default(autoincrement())
+  name String
 
   products Product[]
 }
@@ -66,14 +67,28 @@ model Product {
 
   name        String
   description String?
-  price       Float
-  stock       Int
-  images      ProductImages[]
-  sku         String
 
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId Int
 
+  brand   Brand @relation(fields: [brandId], references: [id])
+  brandId Int
+
+  variants ProductVariant[]
+}
+
+model ProductVariant {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  color String
+  price Float
+  sku   String
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  images     ProductImages[]
   orderItems OrderItem[]
 }
 
@@ -84,8 +99,8 @@ model ProductImages {
   publicId String
   url      String
 
-  product   Product? @relation(fields: [productId], references: [id])
-  productId Int?
+  variant   ProductVariant @relation(fields: [variantId], references: [id])
+  variantId Int
 }
 
 model Order {
@@ -112,13 +127,13 @@ model OrderItem {
   updatedAt DateTime @updatedAt
 
   quantity Int
-  price    Float
+  size     String
 
   order   Order @relation(fields: [orderId], references: [id])
   orderId Int
 
-  product   Product @relation(fields: [productId], references: [id])
-  productId Int
+  variant   ProductVariant @relation(fields: [variantId], references: [id])
+  variantId Int
 }
 
 model Payment {
@@ -135,7 +150,6 @@ model Payment {
 }
 
 // enums 
-
 enum Role {
   Admin
   Customer

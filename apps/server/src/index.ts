@@ -7,6 +7,7 @@ import { logger } from 'hono/logger'
 import authRoutes from './routes/auth.ts'
 import productRoutes from './routes/products.ts'
 import categoryRoutes from './routes/category.ts'
+import brandRoutes from './routes/brand.ts'
 
 const app = new Hono()
 
@@ -26,6 +27,7 @@ app.get('/', (c) => {
 app.route('/api/', authRoutes)
 app.route('/api/products', productRoutes)
 app.route('/api/categories', categoryRoutes)
+app.route('/api/brands', brandRoutes)
 
 app.onError((err, c) => {
 	const status = (err as any)?.status ?? 500

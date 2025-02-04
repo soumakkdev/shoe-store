@@ -1,5 +1,6 @@
 import { getUrl } from '@/lib/utils'
 import { LoaderFunctionArgs, redirect, type MetaFunction } from '@remix-run/node'
+import { useEffect } from 'react'
 import { useLoaderData } from 'react-router'
 
 export const meta: MetaFunction = () => {
@@ -35,20 +36,20 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function Index() {
 	const user = useLoaderData()
 
-	// useEffect(() => {
-	// 	fetch(getUrl('/profile'), {
-	// 		method: 'GET',
-	// 		credentials: 'include',
-	// 		headers: {
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((data) => {
-	// 			console.log(data)
-	// 		})
-	// 		.catch((err) => console.log(err))
-	// }, [])
+	useEffect(() => {
+		fetch(getUrl('/profile'), {
+			method: 'GET',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data)
+			})
+			.catch((err) => console.log(err))
+	}, [])
 
 	return (
 		<div>
