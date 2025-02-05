@@ -1,7 +1,7 @@
 import type { LinksFunction } from '@remix-run/node'
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react'
 
-import QueryProvider from './lib/context/QueryProvider'
+import QueryProvider from './context/QueryProvider'
 import './tailwind.css'
 import { Toaster } from './components/ui/Toaster'
 

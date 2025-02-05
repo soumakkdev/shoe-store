@@ -1,14 +1,14 @@
 import BagIcon from '@/icons/BagIcon'
 import LoveIcon from '@/icons/LoveIcon'
-import { useCategories } from '@/lib/hooks/queries'
+import { useCategories } from '@/hooks/queries'
 import { AvatarImage } from '@radix-ui/react-avatar'
 import { Link } from '@remix-run/react'
-import { Avatar } from './ui/Avatar'
-import FloatingCounter from './ui/FloatingCounter'
-import { useCart } from '@/lib/context/cart'
-import CartDrawer from './home/CartDrawer'
+import { Avatar } from '../ui/Avatar'
+import FloatingCounter from '../ui/FloatingCounter'
+import { useCart } from '@/context/cart'
+import CartDrawer from '../home/CartDrawer'
 import { useState } from 'react'
-import { IconButton } from './ui/IconButton'
+import { IconButton } from '../ui/IconButton'
 
 export default function Header({ minimal }: { minimal?: boolean }) {
 	const { data: categories } = useCategories()

@@ -32,7 +32,7 @@ export default function LoginPage() {
 					},
 					body: JSON.stringify({ token }),
 				})
-				// navigate('/')
+				navigate('/')
 			} catch (error) {
 				toast.error(error?.message)
 			} finally {

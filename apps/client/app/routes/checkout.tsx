@@ -1,6 +1,6 @@
-import Header from '@/components/Header'
+import Header from '@/components/layouts/Header'
 import { Button } from '@/components/ui/Button'
-import { useCart } from '@/lib/context/cart'
+import { useCart } from '@/context/cart'
 import { cn, formatCurrency } from '@/lib/utils'
 import { useState } from 'react'
 
@@ -29,7 +29,12 @@ const Stepper = ({ steps, currentStep }: { steps: string[]; currentStep: number 
 						</div>
 
 						{index < steps.length - 1 && (
-							<div className={cn('flex-grow h-1 transition-all', isCompleted ? 'bg-blue-500' : 'bg-gray-200')}></div>
+							<div
+								className={cn(
+									'flex-grow h-1 transition-all',
+									isCompleted ? 'bg-blue-500' : 'bg-gray-200'
+								)}
+							></div>
 						)}
 					</div>
 				)

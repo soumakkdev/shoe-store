@@ -1,6 +1,15 @@
-import { useCart } from '@/lib/context/cart'
+import { useCart } from '@/context/cart'
 import { Button } from '../ui/Button'
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '../ui/Drawer'
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerDescription,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
+	DrawerTrigger,
+} from '../ui/Drawer'
 import { formatCurrency } from '@/lib/utils'
 import { Link } from '@remix-run/react'
 

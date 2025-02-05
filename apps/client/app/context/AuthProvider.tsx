@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 import { Loader } from 'lucide-react'
-import { getUrl } from '../utils'
+import { getUrl } from '../lib/utils'
 
 interface IAuthContext {
 	user: any | null

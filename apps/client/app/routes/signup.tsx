@@ -1,15 +1,18 @@
 import InputField from '@/components/fields/InputField'
 import PasswordField from '@/components/fields/PasswordField'
 import { Button } from '@/components/ui/Button'
-import { Link } from '@remix-run/react'
+import { auth } from '@/lib/firebase'
+import { getUrl } from '@/lib/utils'
+import { Link, useNavigate } from '@remix-run/react'
 import { useForm } from '@tanstack/react-form'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { Mail, User2 } from 'lucide-react'
 import { FormEvent, useState } from 'react'
+import { toast } from 'sonner'
 
 export default function Signup() {
-	// const router = useRouter()
+	const navigate = useNavigate()
 	const [isLoading, setIsLoading] = useState(false)
-	const [error, setError] = useState('')
 
 	const form = useForm({
 		defaultValues: {
@@ -20,12 +23,26 @@ export default function Signup() {
 		},
 		onSubmit: async ({ value }) => {
 			setIsLoading(true)
-			setError('')
 			try {
-				// const res = await signup(value.name, value.email, value.password)
-				// router.push('/login')
+				const userCredential = await createUserWithEmailAndPassword(auth, value.email, value.password)
+				// const token = await getIdToken(userCredential?.user)
+
+				await fetch(getUrl('/signup'), {
+					method: 'POST',
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						email: value?.email,
+						name: value?.name,
+						uid: userCredential?.user?.uid,
+					}),
+				})
+
+				navigate('/login')
 			} catch (error: any) {
-				setError(error?.message)
+				toast.error(error?.message)
 			} finally {
 				setIsLoading(false)
 			}
@@ -49,13 +66,6 @@ export default function Signup() {
 				</div>
 
 				<form onSubmit={handleSubmit} className="space-y-6 max-w-[440px] mx-auto">
-					{/* {error ? (
-					<Alert variant="error">
-						<AlertCircle className="h-4 w-4" />
-						<AlertTitle>{error}</AlertTitle>
-					</Alert>
-				) : null} */}
-
 					<form.Field
 						name="name"
 						validators={{

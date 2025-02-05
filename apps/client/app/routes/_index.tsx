@@ -1,3 +1,4 @@
+import Header from '@/components/layouts/Header'
 import { getUrl } from '@/lib/utils'
 import { LoaderFunctionArgs, redirect, type MetaFunction } from '@remix-run/node'
 import { useEffect } from 'react'
@@ -53,7 +54,7 @@ export default function Index() {
 
 	return (
 		<div>
-			{/* <Header /> */}
+			<Header />
 
 			<img
 				src="https://static.nike.com/a/images/f_auto/dpr_1.3,cs_srgb/h_1719,c_limit/5089b234-7766-4d9d-84ca-ea6018c4d4bb/nike-just-do-it.png"

@@ -1,8 +1,6 @@
 export interface ICategory {
-	createdAt: string
 	id: number
 	name: string
-	updatedAt: string
 }
 
 export interface IProduct {
@@ -11,20 +9,30 @@ export interface IProduct {
 	updatedAt: string
 	name: string
 	description: string
-	price: number
-	stock: number
-	sku: string
 	categoryId: number
-	images: IProductImage[]
+	brandId: number
 	category: ICategory
+	brand: IBrand
+	variants: IIProductVariant[]
+}
+
+export interface IBrand {
+	id: number
+	name: string
+}
+
+export interface IIProductVariant {
+	id: number
+	color: string
+	price: number
+	sku: string
+	productId: number
+	images: IProductImage[]
 }
 
 export interface IProductImage {
 	id: number
-	createdAt: string
 	publicId: string
 	url: string
-	productId: number
+	variantId: number
 }
-
-export interface ICartItem {}

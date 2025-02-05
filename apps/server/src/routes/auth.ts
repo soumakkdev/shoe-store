@@ -15,14 +15,14 @@ app.post('/session-login', async (c) => {
 	// decode the token
 	const decodedToken = await auth.verifyIdToken(token)
 
-	const user = await prisma.user.findUnique({
-		where: {
-			uid: decodedToken?.uid,
-			email: decodedToken?.email,
-		},
-	})
+	// const user = await prisma.user.findUnique({
+	// 	where: {
+	// 		uid: decodedToken?.uid,
+	// 		email: decodedToken?.email,
+	// 	},
+	// })
 
-	await auth.setCustomUserClaims(decodedToken?.uid, { demo: user.id })
+	// await auth.setCustomUserClaims(decodedToken?.uid, { demo: user.id })
 
 	const expiresIn = 1000 * 60 * 60 * 24 * 5 // 5 days
 	const sessionCookie = await auth.createSessionCookie(token, { expiresIn })

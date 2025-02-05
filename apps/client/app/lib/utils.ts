@@ -9,16 +9,13 @@ export function getUrl(url: string) {
 	return `${import.meta.env.VITE_SERVER_URL}/api${url}`
 }
 
-export async function fetchFn(url: string, method: 'POST' | 'GET' | 'PUT' | 'DELETE', body?: object) {
-	// const cookies = nookies.get(null)
-
+export async function fetchFn<T>(url: string, method: 'POST' | 'GET' | 'PUT' | 'DELETE', body?: object) {
 	const res = await fetch(getUrl(url), {
 		method,
-		// credentials: 'include',
+		credentials: 'include',
 		body: JSON.stringify(body),
 		headers: {
 			'Content-Type': 'application/json',
-			// Authorization: `Bearer ${cookies.access_token}`,
 		},
 	})
 
@@ -27,7 +24,7 @@ export async function fetchFn(url: string, method: 'POST' | 'GET' | 'PUT' | 'DEL
 		throw new Error(error.error ?? 'An unexpected error occurred')
 	}
 
-	return await res.json()
+	return (await res.json()) as T
 }
 
 export function formatCurrency(amount: number) {

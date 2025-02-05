@@ -10,7 +10,6 @@ export const verifySession = createMiddleware(async (c: Context, next: Next) => 
 
 	try {
 		const decodedToken = await auth.verifySessionCookie(sessionCookie, true)
-		console.log(decodedToken)
 		const user = await prisma.user.findUnique({
 			where: {
 				uid: decodedToken?.uid,
