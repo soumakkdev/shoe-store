@@ -9,7 +9,7 @@
 		"jsx": "react-jsx",
 		"jsxImportSource": "hono/jsx",
 		"allowImportingTsExtensions": true,
-		"noImplicitAny": false,
+		"noImplicitAny": true,
 		"strictNullChecks": false,
 		"baseUrl": ".",
 		"paths": {

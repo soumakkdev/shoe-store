@@ -1,22 +1,26 @@
 import { generateNanoid } from '@/lib/helpers.ts'
 import prisma from '@/lib/prisma.ts'
-import type { ICreateProductBody } from '@/types/product.types.ts'
+import type { ICreateProductBody, IGetProductsFilters } from '@/types/product.types.ts'
 import type { Context } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { toInt } from 'radash'
 
 export async function getProducts(c: Context) {
 	try {
-		// const queries = await c.req.query()
-		// const body = await c.req.json()
+		const body = (await c.req.json()) as IGetProductsFilters
 
-		// const whereQuery = {} as {
-		// 	categoryId?: number
-		// }
+		const whereQuery = {} as {
+			categoryId?: number
+			brandId?: number
+		}
 
-		// if (body?.categoryId) {
-		// 	whereQuery.categoryId = toInt(body.categoryId)
-		// }
+		if (body?.categoryId) {
+			whereQuery.categoryId = toInt(body.categoryId)
+		}
+
+		if (body.brandId) {
+			whereQuery.brandId = toInt(body.brandId)
+		}
 
 		const data = await prisma.product.findMany({
 			include: {
@@ -28,11 +32,10 @@ export async function getProducts(c: Context) {
 					},
 				},
 			},
-			// where: whereQuery,
+			where: whereQuery,
 		})
-		return c.json(data)
+		return c.json({ data })
 	} catch (error) {
-		console.log(error)
 		throw new HTTPException(400, {
 			message: 'Internal server error. Please try again',
 		})
@@ -45,12 +48,18 @@ export async function getProduct(c: Context) {
 		const data = await prisma.product.findFirst({
 			include: {
 				category: true,
+				brand: true,
+				variants: {
+					include: {
+						images: true,
+					},
+				},
 			},
 			where: {
 				id: toInt(params.productId),
 			},
 		})
-		return c.json(data)
+		return c.json({ data })
 	} catch (error) {
 		throw new HTTPException(400, {
 			message: 'Internal server error. Please try again',
@@ -118,7 +127,7 @@ export async function createProduct(c: Context) {
 			},
 		})
 
-		return c.json(finalProduct)
+		return c.json({ data: finalProduct })
 	} catch (error) {
 		console.log(error)
 		throw new HTTPException(400, {

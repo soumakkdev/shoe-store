@@ -21,10 +21,12 @@ model User {
   name   String
   email  String  @unique
   role   Role
+  uid    String
   avatar String?
 
   addresses Address[]
-  Order     Order[]
+  orders    Order[]
+  cart      Cart?
 }
 
 model Address {
@@ -78,8 +80,7 @@ model Product {
 }
 
 model ProductVariant {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   color String
   price Float
@@ -90,11 +91,11 @@ model ProductVariant {
 
   images     ProductImages[]
   orderItems OrderItem[]
+  cartItems  CartItem[]
 }
 
 model ProductImages {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   publicId String
   url      String
@@ -122,9 +123,7 @@ model Order {
 }
 
 model OrderItem {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id Int @id @default(autoincrement())
 
   quantity Int
   size     String
@@ -137,9 +136,7 @@ model OrderItem {
 }
 
 model Payment {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id Int @id @default(autoincrement())
 
   paymentMethod PaymentMethod
   paymentStatus PaymentStatus
@@ -147,6 +144,29 @@ model Payment {
 
   order   Order @relation(fields: [orderId], references: [id])
   orderId Int
+}
+
+model Cart {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cartItems CartItem[]
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+}
+
+model CartItem {
+  id String @id @default(uuid())
+
+  quantity Int @default(1)
+
+  cart   Cart   @relation(fields: [cartId], references: [id])
+  cartId String
+
+  variant   ProductVariant @relation(fields: [variantId], references: [id])
+  variantId Int
 }
 
 // enums 

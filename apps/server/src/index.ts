@@ -4,10 +4,7 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 
-import authRoutes from './routes/auth.ts'
-import productRoutes from './routes/products.ts'
-import categoryRoutes from './routes/category.ts'
-import brandRoutes from './routes/brand.ts'
+import apiRoutes from './routes/routes.ts'
 
 const app = new Hono()
 
@@ -24,10 +21,7 @@ app.get('/', (c) => {
 	return c.text('Hello Hono!')
 })
 
-app.route('/api/', authRoutes)
-app.route('/api/products', productRoutes)
-app.route('/api/categories', categoryRoutes)
-app.route('/api/brands', brandRoutes)
+app.route('/api', apiRoutes)
 
 app.onError((err, c) => {
 	const status = (err as any)?.status ?? 500

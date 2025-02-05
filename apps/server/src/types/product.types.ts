@@ -19,3 +19,11 @@ export const ZCreateProductBody = z.object({
 	variants: z.array(ZProductVariant),
 })
 export type ICreateProductBody = z.infer<typeof ZCreateProductBody>
+
+export const ZGetProductsFilters = z.object({
+	categoryId: z.number().optional(),
+	brandId: z.number().optional(),
+	color: z.string().optional(),
+	price: z.number().optional(),
+})
+export type IGetProductsFilters = z.infer<typeof ZGetProductsFilters>

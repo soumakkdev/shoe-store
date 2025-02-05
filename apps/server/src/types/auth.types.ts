@@ -1,16 +1,12 @@
 import z from 'zod'
 
-export const ZLoginReqBody = z.object({
-    email: z.string().email(),
-    password: z.string().min(8),
-})
-
 export const ZSignupReqBody = z.object({
-    name: z.string(),
-    email: z.string().email(),
-    password: z.string().min(8),
+	name: z.string(),
+	email: z.string().email(),
+	uid: z.string(),
 })
+export type ISignupReqBody = z.infer<typeof ZSignupReqBody>
 
-export const ZVerifyEmailReqBody = z.object({
-    token: z.string(),
-})
+export type IVariables = {
+	userId: string
+}
