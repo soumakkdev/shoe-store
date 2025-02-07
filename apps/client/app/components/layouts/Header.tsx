@@ -5,7 +5,7 @@ import { AvatarImage } from '@radix-ui/react-avatar'
 import { Link } from '@remix-run/react'
 import { Avatar } from '../ui/Avatar'
 import FloatingCounter from '../ui/FloatingCounter'
-import { useCart } from '@/context/cart'
+import { useCart } from '@/hooks/useCart'
 import CartDrawer from '../home/CartDrawer'
 import { useState } from 'react'
 import { IconButton } from '../ui/IconButton'
@@ -20,7 +20,7 @@ export default function Header({ minimal }: { minimal?: boolean }) {
 			<div className="flex items-center justify-between h-20">
 				<Link to="/">
 					<h2 className="text-xl font-semibold">
-						Swift <span className="text-gray-400">Shop</span>
+						Shoe.<span className="text-gray-400">Shop</span>
 					</h2>
 				</Link>
 

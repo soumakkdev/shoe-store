@@ -13,7 +13,7 @@ export interface IProduct {
 	brandId: number
 	category: ICategory
 	brand: IBrand
-	variants: IIProductVariant[]
+	variants: IProductVariant[]
 }
 
 export interface IBrand {
@@ -21,7 +21,7 @@ export interface IBrand {
 	name: string
 }
 
-export interface IIProductVariant {
+export interface IProductVariant {
 	id: number
 	color: string
 	price: number
@@ -35,4 +35,10 @@ export interface IProductImage {
 	publicId: string
 	url: string
 	variantId: number
+}
+
+export interface ICartItem {
+	quantity: number
+	variant: IProductVariant
+	product: IProduct
 }

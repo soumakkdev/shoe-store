@@ -1,6 +1,6 @@
 import Header from '@/components/layouts/Header'
 import { Button } from '@/components/ui/Button'
-import { useCart } from '@/context/cart'
+import { useCart } from '@/hooks/useCart'
 import { cn, formatCurrency } from '@/lib/utils'
 import { useState } from 'react'
 
@@ -51,27 +51,30 @@ export default function CheckoutPage() {
 			<Header minimal />
 
 			<div className="max-w-5xl mx-auto px-4 py-10">
-				<div className="max-w-xl mx-auto mb-20">
+				{/* <div className="max-w-xl mx-auto mb-20">
 					<Stepper steps={['Cart', 'Delivery', 'Payment']} currentStep={currentStep} />
-				</div>
+				</div> */}
 
 				<div className="grid grid-cols-5 gap-12">
 					<div className="col-span-3 space-y-5">
 						<h1 className="text-xl font-medium mb-5">Shopping Bag</h1>
 
 						{cartItems?.map((item) => (
-							<div key={item.id} className="flex gap-5">
-								<img src={item?.images?.[0]?.url} alt="" className="w-32 rounded-xl" />
+							<div key={item.variant.id} className="flex gap-5">
+								<img src={item?.variant?.images?.[0]?.url} alt="" className="w-32 rounded-xl" />
 
 								<div className="flex-1">
 									<div className="flex items-center justify-between">
-										<p className="font-semibold text-lg">{item?.name}</p>
+										<p className="font-semibold text-lg">{item?.product?.name}</p>
 
-										<p>{formatCurrency(item?.price)}</p>
+										<p>{formatCurrency(item?.variant?.price)}</p>
 									</div>
-									<p>{item?.category?.name}</p>
+									<p>{item?.product?.category?.name}</p>
 
-									<button className="text-sm underline" onClick={() => removeItemFromCart(item.id)}>
+									<button
+										className="text-sm underline"
+										onClick={() => removeItemFromCart(item.variant.id)}
+									>
 										Remove
 									</button>
 								</div>

@@ -2,7 +2,7 @@ import Header from '@/components/layouts/Header'
 import { Button } from '@/components/ui/Button'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import LoveIcon from '@/icons/LoveIcon'
-import { useCart } from '@/context/cart'
+import { useCart } from '@/hooks/useCart'
 import { useProduct } from '@/hooks/queries'
 import { formatCurrency } from '@/lib/utils'
 import { Link, useNavigate, useParams, useSearchParams } from '@remix-run/react'
@@ -66,7 +66,11 @@ export default function ProductPage() {
 							</div>
 
 							<div className="flex gap-2 mt-8">
-								<Button className="w-full" size="lg" onClick={() => addItemToCart(product)}>
+								<Button
+									className="w-full"
+									size="lg"
+									onClick={() => addItemToCart(product, selectedVariant)}
+								>
 									Add to cart
 								</Button>
 
