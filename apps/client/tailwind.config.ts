@@ -9,7 +9,7 @@ export default {
 			},
 			colors: {
 				primary: '#272724',
-				ring: '#16404D',
+				ring: '#2563eb',
 				background: '#ffffff',
 				foreground: '#16404D',
 				card: '#F8F9FA',

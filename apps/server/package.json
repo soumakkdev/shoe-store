@@ -16,6 +16,7 @@
     "hono": "^4.6.17",
     "nanoid": "^5.0.9",
     "radash": "^12.1.0",
+    "stripe": "^17.6.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {

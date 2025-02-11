@@ -24,28 +24,27 @@ model User {
   uid    String
   avatar String?
 
-  addresses Address[]
+  addresses UserAddress[]
   orders    Order[]
   cart      Cart?
 }
 
-model Address {
+model UserAddress {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  address  String
-  locality String?
-  city     String
-  state    String
-  zipcode  String
-  country  String
-  phoneNo  String
+  address   String
+  locality  String?
+  city      String
+  state     String
+  zipcode   String
+  country   String
+  phoneNo   String
+  isDefault Boolean
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
-
-  orders Order[]
 }
 
 model Category {
@@ -112,14 +111,28 @@ model Order {
   totalAmount Float
   status      OrderStatus
 
-  billingAddress Address @relation(fields: [addressId], references: [id])
-  addressId      Int
-
   user   User @relation(fields: [userId], references: [id])
   userId Int
 
   orderItems OrderItem[]
   payments   Payment[]
+
+  orderAddress   OrderAddress @relation(fields: [orderAddressId], references: [id])
+  orderAddressId Int
+}
+
+model OrderAddress {
+  id Int @id @default(autoincrement())
+
+  address  String
+  locality String?
+  city     String
+  state    String
+  zipcode  String
+  country  String
+  phoneNo  String
+
+  Order Order[]
 }
 
 model OrderItem {

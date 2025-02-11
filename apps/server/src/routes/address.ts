@@ -11,7 +11,7 @@ const app = new Hono<{ Variables: IVariables }>()
 
 app.get('/', verifySession, async (c) => {
 	try {
-		const data = await prisma.address.findMany({})
+		const data = await prisma.userAddress.findMany({})
 		return c.json({ data })
 	} catch (error) {
 		throw new HTTPException(400, {
@@ -23,7 +23,7 @@ app.post('/', verifySession, zValidator('json', ZCreateAddressBody), async (c) =
 	try {
 		const userId = c.get('userId')
 		const body = (await c.req.json()) as ICreateAddressBody
-		const data = await prisma.address.create({
+		const data = await prisma.userAddress.create({
 			data: {
 				address: body.address,
 				locality: body.locality,
@@ -32,7 +32,12 @@ app.post('/', verifySession, zValidator('json', ZCreateAddressBody), async (c) =
 				zipcode: body.zipcode,
 				country: body.country,
 				phoneNo: body.phoneNo,
-				userId: toInt(userId),
+				isDefault: false,
+				user: {
+					connect: {
+						id: toInt(userId),
+					},
+				},
 			},
 		})
 		return c.json({ data })
@@ -45,7 +50,7 @@ app.post('/', verifySession, zValidator('json', ZCreateAddressBody), async (c) =
 app.delete('/:id', async (c) => {
 	try {
 		const params = await c.req.param()
-		await prisma.address.delete({
+		await prisma.userAddress.delete({
 			where: {
 				id: toInt(params.id),
 			},
