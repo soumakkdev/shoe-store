@@ -1,8 +1,8 @@
 import { atom, useAtom } from 'jotai'
-import { ICartItem, IProductVariant, IProduct } from '../types/products.types'
 import { useMemo } from 'react'
 import { toInt } from 'radash'
 import { atomWithStorage } from 'jotai/utils'
+import type { ICartItem, IProduct, IProductVariant } from '~/types/products.types'
 
 const cartItemsAtom = atomWithStorage<ICartItem[]>('cart', [])
 

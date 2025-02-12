@@ -40,7 +40,7 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
 
 				<DrawerFooter>
 					<div>
-						<div className="flex items-center justify-between py-4 border-y my-4 font-semibold">
+						<div className="flex items-center justify-between py-4 border-y border-border my-4 font-semibold">
 							<p>Subtotal</p>
 							<p>{formatCurrency(subTotal)}</p>
 						</div>

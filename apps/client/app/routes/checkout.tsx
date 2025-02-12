@@ -74,7 +74,7 @@ export default function CheckoutPage() {
 							<p>{formatCurrency(deliveryCharge)}</p>
 						</div>
 
-						<div className="flex items-center justify-between py-4 border-t my-5 font-semibold">
+						<div className="flex items-center justify-between py-4 border-t border-border my-5 font-semibold">
 							<p className="">Total</p>
 							<p>{formatCurrency(cartTotal)}</p>
 						</div>
