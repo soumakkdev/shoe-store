@@ -1,5 +1,4 @@
 import { auth } from '@/lib/firebase.ts'
-import prisma from '@/lib/prisma.ts'
 import type { Context, Next } from 'hono'
 import { getCookie } from 'hono/cookie'
 import { createMiddleware } from 'hono/factory'
@@ -10,13 +9,8 @@ export const verifySession = createMiddleware(async (c: Context, next: Next) => 
 
 	try {
 		const decodedToken = await auth.verifySessionCookie(sessionCookie, true)
-		const user = await prisma.user.findUnique({
-			where: {
-				uid: decodedToken?.uid,
-				email: decodedToken?.email,
-			},
-		})
-		c.set('userId', user.id)
+		c.set('userId', decodedToken?.userId)
+		c.set('role', decodedToken?.role)
 		await next()
 	} catch (error) {
 		throw new HTTPException(401, {

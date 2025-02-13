@@ -14,8 +14,6 @@ export default function Header({ minimal }: { minimal?: boolean }) {
 	const { cartCount } = useCart()
 	const [isCartOpen, setIsCartOpen] = useState(false)
 
-	console.log(categories)
-
 	return (
 		<header className="max-w-5xl mx-auto px-4">
 			<div className="flex items-center justify-between h-20">

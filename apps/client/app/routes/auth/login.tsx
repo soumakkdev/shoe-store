@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form'
 import { getIdToken, signInWithEmailAndPassword } from 'firebase/auth'
 import { useState, type FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useSearchParams } from 'react-router'
 import { toast } from 'sonner'
 import InputField from '~/components/fields/InputField'
 import PasswordField from '~/components/fields/PasswordField'
@@ -9,10 +9,13 @@ import { Button } from '~/components/ui/Button'
 import { Label } from '~/components/ui/Label'
 import { auth } from '~/lib/firebase'
 import { getUrl } from '~/lib/utils'
+import { Role } from '~/types/common.types'
 
 export default function LoginPage() {
 	const [isLoading, setIsLoading] = useState(false)
 	const navigate = useNavigate()
+	const [searchParams] = useSearchParams()
+	const redirectUrl = searchParams.get('redirect')
 
 	const form = useForm({
 		defaultValues: {
@@ -24,7 +27,7 @@ export default function LoginPage() {
 			try {
 				const userCredential = await signInWithEmailAndPassword(auth, value.email, value.password)
 				const token = await getIdToken(userCredential?.user)
-				await fetch(getUrl('/session-login'), {
+				const res = await fetch(getUrl('/session-login'), {
 					method: 'POST',
 					credentials: 'include',
 					headers: {
@@ -32,7 +35,15 @@ export default function LoginPage() {
 					},
 					body: JSON.stringify({ token }),
 				})
-				navigate('/')
+				const data = await res.json()
+
+				if (data?.metadata?.role === Role.Admin) {
+					navigate('/dashboard')
+				} else if (redirectUrl) {
+					navigate(redirectUrl)
+				} else {
+					navigate('/')
+				}
 			} catch (error) {
 				toast.error(error?.message)
 			} finally {
