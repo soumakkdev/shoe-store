@@ -2,12 +2,16 @@ import { atom, useAtom } from 'jotai'
 import { useMemo } from 'react'
 import { toInt } from 'radash'
 import { atomWithStorage } from 'jotai/utils'
-import type { ICartItem, IProduct, IProductVariant } from '~/types/products.types'
+import type { IProduct, IProductVariant } from '~/types/products.types'
+import type { ICartAddress, ICartItem } from '~/types/cart.types'
 
 const cartItemsAtom = atomWithStorage<ICartItem[]>('cart', [])
+const cartAddressAtom = atom<ICartAddress | null>(null)
 
 export function useCart() {
 	const [cartItems, setCartItems] = useAtom(cartItemsAtom)
+	const [cartAddress, setCartAddress] = useAtom(cartAddressAtom)
+
 	const deliveryCharge = 40
 
 	function addItemToCart(product: IProduct, variant: IProductVariant) {
@@ -31,6 +35,10 @@ export function useCart() {
 		})
 	}
 
+	function saveCartAddress(address: ICartAddress) {
+		return setCartAddress(address)
+	}
+
 	const subTotal = useMemo(() => {
 		return cartItems?.reduce((total, item) => {
 			total += toInt(item?.variant.price)
@@ -50,5 +58,7 @@ export function useCart() {
 		subTotal,
 		cartTotal,
 		deliveryCharge,
+		cartAddress,
+		saveCartAddress,
 	}
 }

@@ -6,6 +6,7 @@ import categoryRoutes from './category.ts'
 import brandRoutes from './brand.ts'
 import addressRoutes from './address.ts'
 import orderRoutes from './order.ts'
+import { verifySession } from '@/middleware/auth.middleware.ts'
 
 const app = new Hono()
 

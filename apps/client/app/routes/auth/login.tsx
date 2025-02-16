@@ -35,9 +35,12 @@ export default function LoginPage() {
 					},
 					body: JSON.stringify({ token }),
 				})
+				if (!res.ok) {
+					throw new Error('Login failed')
+				}
 				const data = await res.json()
 
-				if (data?.metadata?.role === Role.Admin) {
+				if (data?.user?.role === Role.Admin) {
 					navigate('/dashboard')
 				} else if (redirectUrl) {
 					navigate(redirectUrl)

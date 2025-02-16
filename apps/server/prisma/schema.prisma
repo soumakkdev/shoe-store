@@ -115,7 +115,9 @@ model Order {
   userId Int
 
   orderItems OrderItem[]
-  payments   Payment[]
+
+  paymentIntentId String?
+  paymentStatus   PaymentStatus?
 
   orderAddress   OrderAddress @relation(fields: [orderAddressId], references: [id])
   orderAddressId Int
@@ -131,6 +133,7 @@ model OrderAddress {
   zipcode  String
   country  String
   phoneNo  String
+  name     String
 
   Order Order[]
 }
@@ -146,17 +149,6 @@ model OrderItem {
 
   variant   ProductVariant @relation(fields: [variantId], references: [id])
   variantId Int
-}
-
-model Payment {
-  id Int @id @default(autoincrement())
-
-  paymentMethod PaymentMethod
-  paymentStatus PaymentStatus
-  transactionId String        @unique
-
-  order   Order @relation(fields: [orderId], references: [id])
-  orderId Int
 }
 
 model Cart {
@@ -192,18 +184,14 @@ enum OrderStatus {
   Pending
   Paid
   Shiped
+  Failed
   Completed
-  Cancelled
-}
-
-enum PaymentMethod {
-  CreditCard
-  UPI
-  COD
+  Canceled
 }
 
 enum PaymentStatus {
   Pending
-  Completed
+  Succeeded
   Failed
+  Refunded
 }

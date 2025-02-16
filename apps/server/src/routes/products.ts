@@ -7,7 +7,7 @@ import { Hono } from 'hono'
 const app = new Hono()
 
 app.post('/', zValidator('json', ZGetProductsFilters), getProducts)
+app.post('/create', zValidator('json', ZCreateProductBody), createProduct)
 app.get('/:productId', getProduct)
-app.post('/', verifySession, zValidator('json', ZCreateProductBody), createProduct)
 
 export default app

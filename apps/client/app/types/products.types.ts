@@ -36,9 +36,3 @@ export interface IProductImage {
 	url: string
 	variantId: number
 }
-
-export interface ICartItem {
-	quantity: number
-	variant: IProductVariant
-	product: IProduct
-}

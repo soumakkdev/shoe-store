@@ -7,6 +7,7 @@ import type { Role } from '@prisma/client'
 import { Hono } from 'hono'
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie'
 import { HTTPException } from 'hono/http-exception'
+import { toInt } from 'radash'
 
 const app = new Hono<{ Variables: IVariables }>()
 
@@ -14,6 +15,17 @@ app.post('/session-login', async (c) => {
 	const { token } = await c.req.json()
 
 	const metadata = await auth.verifyIdToken(token)
+
+	const user = await prisma.user.findUnique({
+		where: {
+			id: toInt(metadata.userId),
+		},
+	})
+	if (!user) {
+		throw new HTTPException(401, {
+			message: 'Login failed',
+		})
+	}
 
 	// create session cookie with the token
 	const expiresIn = 1000 * 60 * 60 * 24 * 5 // 5 days
@@ -25,7 +37,7 @@ app.post('/session-login', async (c) => {
 		path: '/',
 	})
 
-	return c.json({ success: true, metadata })
+	return c.json({ success: true, user })
 })
 
 app.post('/signup', zValidator('json', ZSignupReqBody), async (c) => {
@@ -85,9 +97,25 @@ app.post('/logout', (c) => {
 	return c.json({ success: true })
 })
 
-app.get('/profile', verifySession, (c) => {
-	const user = c.get('userId')
-	return c.json({ email: user })
+app.get('/profile', verifySession, async (c) => {
+	try {
+		const userId = c.get('userId')
+		const user = await prisma.user.findUnique({
+			where: {
+				id: toInt(userId),
+			},
+		})
+		if (!user) {
+			throw new HTTPException(401, {
+				message: 'Unauthorized',
+			})
+		}
+		return c.json({ data: user })
+	} catch (error) {
+		throw new HTTPException(401, {
+			message: 'Unauthorized',
+		})
+	}
 })
 
 export default app

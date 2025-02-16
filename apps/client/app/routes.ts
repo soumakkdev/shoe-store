@@ -14,6 +14,7 @@ export default [
 	// user protected routes
 	layout('routes/user/user.layout.tsx', [
 		route('/checkout', 'routes/user/checkout.tsx'),
+		route('/confirm', 'routes/user/confirm.tsx'),
 		route('/orders', 'routes/user/orders.tsx'),
 	]),
 

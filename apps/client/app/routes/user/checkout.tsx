@@ -5,10 +5,22 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '~/
 import { useCart } from '~/hooks/useCart'
 import { formatCurrency } from '~/lib/utils'
 import { useState } from 'react'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+import ContactForm from '~/components/checkout/ContactForm'
+import AddressPreview from '~/components/checkout/AddressPreview'
+import { Pencil } from 'lucide-react'
+import { IconButton } from '~/components/ui/IconButton'
+import { useUser } from '~/hooks/useUser'
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUB_KEY)
 
 export default function CheckoutPage() {
 	const { cartItems, subTotal, cartTotal, deliveryCharge, cartCount, removeItemFromCart } = useCart()
 	const [currentStep, setCurrentStep] = useState('shipping')
+	const [isAddressEdit, setIsAddressEdit] = useState(false)
+
+	const { user } = useUser()
 
 	return (
 		<div>
@@ -18,23 +30,61 @@ export default function CheckoutPage() {
 				<div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
 					<div className="col-span-3 space-y-5">
 						<Accordion type="single" value={currentStep} onValueChange={(step) => setCurrentStep(step)}>
-							<AccordionItem value="shipping" className="border my-4 px-6 py-2 rounded-xl">
-								<AccordionTrigger>
-									<h1 className="text-lg font-semibold">Shipping</h1>
-								</AccordionTrigger>
-								<AccordionContent>
-									<AddressForm />
-								</AccordionContent>
-							</AccordionItem>
+							<div className="border border-border my-4 p-5 rounded-xl">
+								<div className="flex items-center justify-between">
+									<h1 className="text-lg font-semibold">Contact Info</h1>
+								</div>
+								<p>{user?.name}</p>
+								<p>{user?.email}</p>
+							</div>
 
-							<AccordionItem value="payment" className="border my-4 px-6 py-2 rounded-xl">
+							<div className="border border-border my-4 p-5 rounded-xl">
+								<div className="flex items-center justify-between">
+									<h1 className="text-lg font-semibold">Shipping Address</h1>
+									{currentStep !== 'shipping' ? (
+										<IconButton onClick={() => setCurrentStep('shipping')}>
+											<Pencil className="h-4 w-4" />
+										</IconButton>
+									) : null}
+								</div>
+								{currentStep === 'shipping' ? (
+									<AddressForm onSubmit={() => setCurrentStep('payment')} />
+								) : (
+									<AddressPreview />
+								)}
+							</div>
+
+							<div className="border border-border my-4 p-5 rounded-xl">
+								<div className="flex items-center justify-between">
+									<h1 className="text-lg font-semibold">Payment Info</h1>
+									<IconButton onClick={() => setCurrentStep('payment')}>
+										<Pencil className="h-4 w-4" />
+									</IconButton>
+								</div>
+								{currentStep === 'payment' ? (
+									<Elements
+										stripe={stripePromise}
+										options={{
+											mode: 'payment',
+											currency: 'inr',
+											amount: cartTotal,
+										}}
+									>
+										<PaymentForm />
+									</Elements>
+								) : (
+									<AddressPreview />
+								)}
+							</div>
+
+							{/* <AccordionItem value="payment" className="border my-4 px-6 py-2 rounded-xl">
 								<AccordionTrigger>
 									<h1 className="text-lg font-semibold">Payment</h1>
 								</AccordionTrigger>
 								<AccordionContent>
-									<PaymentForm />
+									
 								</AccordionContent>
-							</AccordionItem>
+							</AccordionItem> */}
 						</Accordion>
 					</div>
 

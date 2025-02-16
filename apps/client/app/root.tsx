@@ -3,6 +3,7 @@ import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration }
 import type { Route } from './+types/root'
 import './app.css'
 import QueryProvider from './context/QueryProvider'
+import { Toaster } from './components/ui/Toaster'
 
 export const links: Route.LinksFunction = () => [
 	{ rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -30,6 +31,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<QueryProvider>{children}</QueryProvider>
 				<ScrollRestoration />
 				<Scripts />
+				<Toaster />
 			</body>
 		</html>
 	)

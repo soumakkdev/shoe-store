@@ -28,6 +28,6 @@ export async function loader({ request }: Route.LoaderArgs) {
 	return data?.metadata
 }
 
-export default function UserLayout() {
+export default function UserLayout({ loaderData }: Route.ComponentProps) {
 	return <Outlet />
 }
