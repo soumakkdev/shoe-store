@@ -1,21 +1,32 @@
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/Avatar'
-import FloatingCounter from '../ui/FloatingCounter'
-import CartDrawer from '../home/CartDrawer'
+import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { IconButton } from '../ui/IconButton'
-import { useCart } from '~/hooks/useCart'
+import { Link, useNavigate } from 'react-router'
 import { useCategories } from '~/hooks/queries'
-import { Link } from 'react-router'
+import { useCart } from '~/hooks/useCart'
+import { useUser } from '~/hooks/useUser'
 import BagIcon from '~/icons/BagIcon'
 import LoveIcon from '~/icons/LoveIcon'
-import { useUser } from '~/hooks/useUser'
+import { fetchFn } from '~/lib/utils'
+import CartDrawer from '../home/CartDrawer'
+import { Avatar, AvatarFallback } from '../ui/Avatar'
 import { Button } from '../ui/Button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/Dropdown'
+import FloatingCounter from '../ui/FloatingCounter'
+import { IconButton } from '../ui/IconButton'
 
 export default function Header({ minimal }: { minimal?: boolean }) {
 	const { data: categories } = useCategories()
 	const { cartCount } = useCart()
 	const [isCartOpen, setIsCartOpen] = useState(false)
 	const { user } = useUser()
+	const queryClient = useQueryClient()
+	const navigate = useNavigate()
+
+	async function handleLogout() {
+		queryClient.clear()
+		await fetchFn('/logout', 'DELETE')
+		navigate('/login')
+	}
 
 	return (
 		<header className="max-w-5xl mx-auto px-4">
@@ -52,10 +63,21 @@ export default function Header({ minimal }: { minimal?: boolean }) {
 					)}
 
 					{user ? (
-						<Avatar>
-							{/* <AvatarImage src="https://github.com/shadcn.png" /> */}
-							<AvatarFallback>{user?.name?.slice(0, 1)}</AvatarFallback>
-						</Avatar>
+						<DropdownMenu>
+							<DropdownMenuTrigger>
+								<Avatar className="bg-blue-200">
+									{/* <AvatarImage src="https://github.com/shadcn.png" /> */}
+									<AvatarFallback>{user?.name?.slice(0, 1)}</AvatarFallback>
+								</Avatar>
+							</DropdownMenuTrigger>
+
+							<DropdownMenuContent>
+								<DropdownMenuItem>Profile</DropdownMenuItem>
+								<DropdownMenuItem>Orders</DropdownMenuItem>
+								<DropdownMenuItem>Wishlist</DropdownMenuItem>
+								<DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
 					) : (
 						<Link to="/login">
 							<Button>Login</Button>

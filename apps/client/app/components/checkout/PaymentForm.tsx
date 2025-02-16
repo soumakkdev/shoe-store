@@ -5,7 +5,7 @@ import { fetchFn, getUrl } from '~/lib/utils'
 import { Button } from '../ui/Button'
 
 export default function PaymentForm() {
-	const { cartItems, cartTotal, cartAddress } = useCart()
+	const { cartItems, cartTotal, cartAddress, emptyCart } = useCart()
 	const stripe = useStripe()
 	const elements = useElements()
 
@@ -62,6 +62,7 @@ export default function PaymentForm() {
 				// Show error to your customer (for example, payment details incomplete)
 				console.log(result.error.message)
 			} else {
+				emptyCart()
 				// Your customer will be redirected to your `return_url`. For some payment
 				// methods like iDEAL, your customer will be redirected to an intermediate
 				// site first to authorize the payment, then redirected to the `return_url`.

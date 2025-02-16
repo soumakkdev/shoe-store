@@ -35,6 +35,11 @@ export function useCart() {
 		})
 	}
 
+	function emptyCart() {
+		setCartItems([])
+		setCartAddress(null)
+	}
+
 	function saveCartAddress(address: ICartAddress) {
 		return setCartAddress(address)
 	}
@@ -60,5 +65,6 @@ export function useCart() {
 		deliveryCharge,
 		cartAddress,
 		saveCartAddress,
+		emptyCart,
 	}
 }

@@ -4,6 +4,7 @@ import type { Route } from './+types/root'
 import './app.css'
 import QueryProvider from './context/QueryProvider'
 import { Toaster } from './components/ui/Toaster'
+import { AuthProvider } from './context/AuthProvider'
 
 export const links: Route.LinksFunction = () => [
 	{ rel: 'preconnect', href: 'https://fonts.googleapis.com' },

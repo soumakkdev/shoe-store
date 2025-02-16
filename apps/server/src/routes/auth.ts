@@ -92,7 +92,7 @@ app.get('/verify-session', async (c) => {
 	}
 })
 
-app.post('/logout', (c) => {
+app.delete('/logout', (c) => {
 	deleteCookie(c, 'session')
 	return c.json({ success: true })
 })

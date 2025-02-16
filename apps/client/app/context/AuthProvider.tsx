@@ -15,22 +15,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	useEffect(() => {
 		async function fetchProfile() {
-			// const cookies = nookies.get(null)
-			const res = await fetch(getUrl('/profile'), {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					// Authorization: `Bearer ${cookies.access_token}`,
-				},
-			})
-			// if (res.status === 401) {
-			// 	return await refreshAccessToken()
-			// }
+			const res = await fetch(getUrl('/profile'), { credentials: 'include' })
 			const data = await res.json()
 			setUser(data?.data)
-
 			setLoading(false)
-			// return data
 		}
 
 		fetchProfile()
