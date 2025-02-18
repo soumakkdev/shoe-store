@@ -23,6 +23,7 @@ export default [
 		layout('routes/dashboard/dashboard.layout.tsx', [
 			index('routes/dashboard/dashboard.tsx'),
 			route('products', 'routes/dashboard/products.tsx'),
+			route('products/add', 'routes/dashboard/add-product.tsx'),
 		]),
 	]),
 ] satisfies RouteConfig
